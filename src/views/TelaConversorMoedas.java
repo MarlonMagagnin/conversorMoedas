@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 
 import controller.ConsumirAPI;
 import controller.Moedas;
+import controller.MoedasController;
 
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
@@ -21,7 +22,7 @@ import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JSeparator;
-
+import javax.swing.SwingConstants;
 
 public class TelaConversorMoedas {
 
@@ -29,7 +30,6 @@ public class TelaConversorMoedas {
 
 	private static JTextField textFieldValorReal;
 	private static double valorAConverter;
-	private static double valorConvertido;
 	private static JTextField textFieldValorConvertido;
 	private static JTextField textFieldValorAtualCotacao;
 
@@ -87,27 +87,34 @@ public class TelaConversorMoedas {
 		textFieldValorReal.setColumns(10);
 
 		JComboBox<String> comboBox = new JComboBox();
-		comboBox.setBounds(330, 40, 200, 20);
+		comboBox.setBounds(180, 40, 150, 20);
 		comboBox.addItem("ESCOLHA ABAIXO");
-		comboBox.addItem("REAL -> DOLAR");
-		comboBox.addItem("REAL -> EURO");
-		comboBox.addItem("REAL -> LIBRAS ESTERLINAS");
-		comboBox.addItem("REAL -> PESO ARGENTINO");
-		comboBox.addItem("REAL -> PESO CHILENO");
-		comboBox.addItem("DOLAR -> REAL");
-		comboBox.addItem("EURO -> REAL");
-		comboBox.addItem("LIBRAS ESTERLINAS -> REAL");
-		comboBox.addItem("PESO ARGENTINO -> REAL");
-		comboBox.addItem("PESO CHILENO -> REAL");
-		
-		panel.add(comboBox);
+		comboBox.addItem("REAL");
+		comboBox.addItem("DOLAR");
+		comboBox.addItem("EURO");
+		comboBox.addItem("LIBRAS ESTERLINAS");
+		comboBox.addItem("PESO ARGENTINO");
+		comboBox.addItem("PESO CHILENO");
 
+		JComboBox<String> comboBox2 = new JComboBox<>();
+		comboBox2.setBounds(370, 40, 150, 20);
+		comboBox2.addItem("ESCOLHA ABAIXO");
+		comboBox2.addItem("REAL");
+		comboBox2.addItem("DOLAR");
+		comboBox2.addItem("EURO");
+		comboBox2.addItem("LIBRAS ESTERLINAS");
+		comboBox2.addItem("PESO ARGENTINO");
+		comboBox2.addItem("PESO CHILENO");
+
+		panel.add(comboBox);
+		panel.add(comboBox2);
+		
 		JButton btnConverter = new JButton("Converter");
-		btnConverter.setBounds(200, 70, 150, 20);
+		btnConverter.setBounds(275, 70, 150, 20);
 		panel.add(btnConverter);
 
-		JLabel lblConverter = new JLabel("Digite para qual moeda deseja converter:");
-		lblConverter.setBounds(20, 40, 300, 20);
+		JLabel lblConverter = new JLabel("Escolha a conversão:");
+		lblConverter.setBounds(20, 40, 150, 20);
 		panel.add(lblConverter);
 
 		JLabel lblValorvalorConvertido = new JLabel("Valor valorConvertido:");
@@ -119,35 +126,43 @@ public class TelaConversorMoedas {
 		panel.add(textFieldValorConvertido);
 		textFieldValorConvertido.setColumns(10);
 		textFieldValorConvertido.setEditable(false);
-		
+
 		JLabel lblValorAtualCotacao = new JLabel("Valor atual da cotação:");
 		lblValorAtualCotacao.setBounds(20, 140, 200, 20);
 		panel.add(lblValorAtualCotacao);
-		
+
 		textFieldValorAtualCotacao = new JTextField();
 		textFieldValorAtualCotacao.setBounds(200, 140, 150, 20);
 		panel.add(textFieldValorAtualCotacao);
 		textFieldValorAtualCotacao.setColumns(10);
 		textFieldValorAtualCotacao.setEditable(false);
-		
+
 		JSeparator separator = new JSeparator();
 		separator.setBounds(25, 120, 490, 5);
 		panel.add(separator);
-		
+
 		JLabel informacao = new JLabel("Valores para conversão obtidos através da API externa AwesomeAPI");
 		informacao.setBounds(25, 100, 500, 20);
 		panel.add(informacao);
-		
+
 		JButton btnSair = new JButton("Voltar");
 		btnSair.setBounds(400, 175, 100, 20);
 		panel.add(btnSair);
+
+		JLabel lblTroca = new JLabel("--->");
+		lblTroca.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTroca.setBounds(335, 40, 30, 20);
+		panel.add(lblTroca);
 		
+		JLabel lblInfomais = new JLabel("* O cálculo efetuado tem caráter informativo!");
+		lblInfomais.setBounds(20, 200, 350, 20);
+		panel.add(lblInfomais);
+
 		btnSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				sair();
 			}
 		});
-		
 
 		btnConverter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -155,37 +170,188 @@ public class TelaConversorMoedas {
 
 					if (textFieldValorReal.getText().isEmpty()) {
 						JOptionPane.showMessageDialog(null, "O campo está vazio");
-					} else {
+					} else {	
 						ConsumirAPI.cotacao();
-						if (comboBox.getSelectedItem().equals("REAL -> DOLAR")) {
-							realDolar();
+						converterTipo();
+						if (comboBox.getSelectedItem().equals("REAL") && comboBox2.getSelectedItem().equals("DOLAR")) {
+							MoedasController.realDolar();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("REAL -> EURO")) {
-							realEuro();
+						if (comboBox.getSelectedItem().equals("REAL") && comboBox2.getSelectedItem().equals("EURO")) {
+							MoedasController.realEuro();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("REAL -> LIBRAS ESTERLINAS")) {
-							realLibrasEsterlinas();
+						if (comboBox.getSelectedItem().equals("REAL")
+								&& comboBox2.getSelectedItem().equals("LIBRAS ESTERLINAS")) {
+							MoedasController.realLibrasEsterlinas();
+							exibirCotação();
+							exibirResultado();
+
 						}
-						if (comboBox.getSelectedItem().equals("REAL -> PESO ARGENTINO")) {
-							realPesoArgentino();
+						if (comboBox.getSelectedItem().equals("REAL")
+								&& comboBox2.getSelectedItem().equals("PESO ARGENTINO")) {
+							MoedasController.realPesoArgentino();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("REAL -> PESO CHILENO")) {
-							realPesoChileno();
+						if (comboBox.getSelectedItem().equals("REAL")
+								&& comboBox2.getSelectedItem().equals("PESO CHILENO")) {
+							MoedasController.realPesoChileno();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("DOLAR -> REAL")) {
-							dolarReal();
+
+						if (comboBox.getSelectedItem().equals("DOLAR") && comboBox2.getSelectedItem().equals("REAL")) {
+							MoedasController.dolarReal();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("EURO -> REAL")) {
-							euroReal();
+						if (comboBox.getSelectedItem().equals("DOLAR")
+								&& comboBox2.getSelectedItem().equals("LIBRAS ESTERLINAS")) {
+							MoedasController.dolarLibrasEsterlinas();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("LIBRAS ESTERLINAS -> REAL")) {
-							librasEsterlinasReal();
+						if (comboBox.getSelectedItem().equals("DOLAR") && comboBox2.getSelectedItem().equals("EURO")) {
+							MoedasController.dolarEuro();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("PESO ARGENTINO -> REAL")) {
-							pesoArgentinoReal();
+						if (comboBox.getSelectedItem().equals("DOLAR")
+								&& comboBox2.getSelectedItem().equals("PESO ARGETNINO")) {
+							MoedasController.dolarPesoArgentino();
+							exibirCotação();
+							exibirResultado();
 						}
-						if (comboBox.getSelectedItem().equals("PESO CHILENO -> REAL")) {
-							pesoChilenoReal();
+						if (comboBox.getSelectedItem().equals("DOLAR")
+								&& comboBox2.getSelectedItem().equals("PESO CHILENO")) {
+							MoedasController.dolarPesoChileno();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("EURO") && comboBox2.getSelectedItem().equals("REAL")) {
+							MoedasController.euroReal();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("EURO") && comboBox2.getSelectedItem().equals("DOLAR")) {
+							MoedasController.euroDolar();
+							exibirCotação();
+							exibirResultado();
+
+						}
+						if (comboBox.getSelectedItem().equals("EURO")
+								&& comboBox2.getSelectedItem().equals("LIBRAS ESTERLINAS")) {
+							MoedasController.euroLibrasEsterlinas();
+							exibirCotação();
+							exibirResultado();
+
+						}
+						if (comboBox.getSelectedItem().equals("EURO")
+								&& comboBox2.getSelectedItem().equals("PESO ARGENTINO")) {
+							MoedasController.euroPesoArgentino();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("EURO")
+								&& comboBox2.getSelectedItem().equals("PESO CHILENO")) {
+							MoedasController.euroPesoChileno();
+							exibirCotação();
+							exibirResultado();
+
+						}
+						if (comboBox.getSelectedItem().equals("LIBRAS ESTERLINAS")
+								&& comboBox2.getSelectedItem().equals("REAL")) {
+							MoedasController.librasEsterlinasReal();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("LIBRAS ESTERLINAS")
+								&& comboBox2.getSelectedItem().equals("DOLAR")) {
+							MoedasController.librasEsterlinasDolar();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("LIBRAS ESTERLINAS")
+								&& comboBox2.getSelectedItem().equals("EURO")) {
+							MoedasController.librasEsterlinasEuro();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("LIBRAS ESTERLINAS")
+								&& comboBox2.getSelectedItem().equals("PESO ARGENTINO")) {
+							MoedasController.librasEsterlinasPesoArgentino();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("LIBRAS ESTERLINAS")
+								&& comboBox2.getSelectedItem().equals("PESO CHILENO")) {
+							MoedasController.librasEsterlinasPesoChileno();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO ARGENTINO")
+								&& comboBox2.getSelectedItem().equals("REAL")) {
+							MoedasController.pesoArgentinoReal();
+							exibirCotação();
+							exibirResultado();
+
+						}
+						if (comboBox.getSelectedItem().equals("PESO ARGENTINO")
+								&& comboBox2.getSelectedItem().equals("DOLAR")) {
+							MoedasController.pesoArgentinoDolar();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO ARGENTINO")
+								&& comboBox2.getSelectedItem().equals("EURO")) {
+							MoedasController.pesoArgentinoEuro();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO ARGENTINO")
+								&& comboBox2.getSelectedItem().equals("LIBRAS ESTERLINAS")) {
+							MoedasController.pesoArgentinolibrasEsterlinas();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO ARGENTINO")
+								&& comboBox2.getSelectedItem().equals("PESO CHILENO")) {
+							MoedasController.pesoArgentinoPesoChileno();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO CHILENO")
+								&& comboBox2.getSelectedItem().equals("REAL")) {
+							MoedasController.pesoChilenoReal();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO CHILENO")
+								&& comboBox2.getSelectedItem().equals("DOLAR")) {
+							MoedasController.pesoChilenoDolar();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO CHILENO")
+								&& comboBox2.getSelectedItem().equals("EURO")) {
+							MoedasController.pesoChilenoEuro();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO CHILENO")
+								&& comboBox2.getSelectedItem().equals("LIBRAS ESTERLINAS")) {
+							MoedasController.pesoChilenolibrasEsterlinas();
+							exibirCotação();
+							exibirResultado();
+						}
+						if (comboBox.getSelectedItem().equals("PESO CHILENO")
+								&& comboBox2.getSelectedItem().equals("PESO ARGENTINO")) {
+							MoedasController.pesoChilenoPesoArgentino();
+							exibirCotação();
+							exibirResultado();
 						}
 					}
 				} catch (IOException e1) {
@@ -197,89 +363,32 @@ public class TelaConversorMoedas {
 			}
 		});
 	}
-	//convertendo tipo string para tipo double
+
+	// convertendo tipo string para tipo double
 	public static void converterTipo() {
 		String valor = textFieldValorReal.getText();
 		valorAConverter = Double.parseDouble(valor);
 	}
-	//métodos para a conversão dos valores das moedas.
-	public static void realDolar() {
-		converterTipo();
-		valorConvertido = valorAConverter / Moedas.getDolar();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getDolar())));
-	}
-	
-	public static void dolarReal() {
-		converterTipo();
-		valorConvertido = valorAConverter * Moedas.getDolar();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getDolar())));
-	}
 
-	public static void realEuro() {
-		converterTipo();
-		valorConvertido = valorAConverter / Moedas.getEuro();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("€ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getEuro())));
-	}
-	
-	public static void euroReal() {
-		converterTipo();
-		valorConvertido = valorAConverter * Moedas.getEuro();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getEuro())));
-	}
-
-	public static void realLibrasEsterlinas() {
-		converterTipo();
-		valorConvertido = valorAConverter / Moedas.getLibrasEsterlinas();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("£ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getLibrasEsterlinas())));
-	}
-	
-	public static void librasEsterlinasReal() {
-		converterTipo();
-		valorConvertido = valorAConverter * Moedas.getLibrasEsterlinas();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getLibrasEsterlinas())));
-	}
-
-	public static void realPesoArgentino() {
-		converterTipo();
-		valorConvertido = valorAConverter / Moedas.getPesoArgentino();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getPesoArgentino())));
-	}
-	
-	public static void pesoArgentinoReal() {
-		converterTipo();
-		valorConvertido = valorAConverter * Moedas.getPesoArgentino();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getPesoArgentino())));
-	}
-
-	public static void realPesoChileno() {
-		converterTipo();
-		valorConvertido = valorAConverter / Moedas.getPesoChileno();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getPesoArgentino())));
-	}
-	
-	public static void pesoChilenoReal() {
-		converterTipo();
-		valorConvertido = valorAConverter * Moedas.getPesoChileno();
-		textFieldValorConvertido.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(valorConvertido)));
-		textFieldValorAtualCotacao.setText(String.valueOf(new DecimalFormat("R$ 0.###").format(Moedas.getPesoArgentino())));
-	}
-	//metodo voltar para tela inicial.
+	// metodo voltar para tela inicial.
 	public void sair() {
-		if (JOptionPane.showConfirmDialog(null, "Voltar a tela inicial?", "Atenção", JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-			JOptionPane.showMessageDialog(null, "Voltando a tela innicial", "Informação", 
-					JOptionPane.INFORMATION_MESSAGE
-					);
 			frame.dispose();
-		}
+	}
+
+	public static void exibirCotação() {
+		textFieldValorAtualCotacao.setText(MoedasController.getCotacaoResultado());
+	}
+
+	public static void exibirResultado() {
+		textFieldValorConvertido.setText(MoedasController.getResultado());
+
+	}
+
+	public static void setValorAConverter(double valorAConverter) {
+		TelaConversorMoedas.valorAConverter = valorAConverter;
+	}
+
+	public static double getValorAConverter() {
+		return valorAConverter;
 	}
 }
