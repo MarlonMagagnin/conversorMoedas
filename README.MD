@@ -4,16 +4,7 @@ Pequeno projeto com dois conversores.<br>
 -> Conversor de temperatura.<br>
 
 O conversor de moedas possui as seguintes conversões:<br>
--> REAL - DOLAR<br>
--> REAL - EURO<br>
--> REAL - LIBRAS-ESTERLINAS<br>
--> REAL - PESO CHILENO<br>
--> REAL PESO ARGENTINO<br>
--> DOLAR - REAL<br>
--> EURO - REAL<br>
--> LIBRAS-ESTERLINAS - REAL<br>
--> PESO CHILENO - REAL<br>
--> PESO ARGENTINO - REAL<br>
+-> Converte o valor da moeda que está selecionado no primeiro box para a moeda que está selecionado no segundo box.
 Os valores da cotação são atualizados a cada 30 segundos com dados vindos de uma API externa chamada AwesomeAPI.<br>
 
 O conversor de temperatura possui as seguintes conversões:<br>
