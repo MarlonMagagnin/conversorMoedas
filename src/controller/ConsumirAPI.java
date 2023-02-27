@@ -37,31 +37,31 @@ public class ConsumirAPI {
 		String[] cotacaoDolarValor = cotacaoMoedaTotal[7].split(":");
 		// convertendo o valor de string para double
 		double cotacaoDolar = Double.parseDouble(cotacaoDolarValor[1].replaceAll("\"", ""));
-		System.out.println(cotacaoDolar);
+		System.out.println("DOLAR" + cotacaoDolar);
 		
 		//separando a posição da moeda e separando o valor
 		String[] cotacaoEuroValor = cotacaoMoedaTotal[18].split(":");
 		// convertendo o valor de string para double
 		double cotacaoEuro = Double.parseDouble(cotacaoEuroValor[1].replaceAll("\"", ""));
-		System.out.println(cotacaoEuro);
+		System.out.println("EURO" + cotacaoEuro);
 		
 		//separando a posição da moeda e separando o valor
 		String[] cotacaoLibraValor = cotacaoMoedaTotal[29].split(":");
 		// convertendo o valor de string para double
 		double cotacaoLibra = Double.parseDouble(cotacaoLibraValor[1].replaceAll("\"", ""));
-		System.out.println(cotacaoLibra);
+		System.out.println("LIBRA" + cotacaoLibra);
 		
 		//separando a posição da moeda e separando o valor
 		String [] cotacaoPesoChilenoValor = cotacaoMoedaTotal[40].split(":");
 		// convertendo o valor de string para double
 		double cotacaoPesoChileno = Double.parseDouble(cotacaoPesoChilenoValor[1].replaceAll("\"", ""));
-		System.out.println(cotacaoPesoChileno);
+		System.out.println("PESO CHILENO" + cotacaoPesoChileno);
 		
 		//separando a posição da moeda e separando o valor
 		String [] cotcaoPesoArgentinoValor = cotacaoMoedaTotal[51].split(":");
 		// convertendo o valor de string para double
 		double cotacaoPesoArgentino = Double.parseDouble(cotcaoPesoArgentinoValor[1].replaceAll("\"", ""));
-		System.out.println(cotacaoPesoArgentino);
+		System.out.println("PESO ARGENTINO" + cotacaoPesoArgentino);
 		
 		//setando valores para as variaveis 
 		Moedas.setDolar(cotacaoDolar);
