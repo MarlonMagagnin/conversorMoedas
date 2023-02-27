@@ -1,16 +1,18 @@
 package controller;
 
 public class Moedas {
-	private static Double dolar;
+	private static double dolar;
 	private static double euro;
 	private static double librasEsterlinas;
 	private static double pesoArgentino;
 	private static double pesoChileno;
+	private static double dolarConvertido;
+	private static double real = 1;
 	
-	public static Double getDolar() {
+	public static double getDolar() {
 		return dolar;
 	}
-	public static void setDolar(Double dolar) {
+	public static void setDolar(double dolar) {
 		Moedas.dolar = dolar;
 	}
 	public static double getEuro() {
@@ -37,6 +39,17 @@ public class Moedas {
 	public static void setPesoChileno(double pesoChileno) {
 		Moedas.pesoChileno = pesoChileno;
 	}
-	
+	public static void setDolarConvertido(double dolarConvertido) {
+		Moedas.dolarConvertido = dolarConvertido;
+	}
+	public static double getDolarConvertido() {
+		return dolarConvertido;
+	}
+	public static void setReal(double real) {
+		Moedas.real = real;
+	}
+	public static double getReal() {
+		return real;
+	}
 
 }
